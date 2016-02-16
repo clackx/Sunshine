@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -29,6 +32,20 @@ public class MainActivityFragment extends Fragment {
     }
 
     ArrayAdapter<String> mForecastAdapter;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Add this line in order for this fragment to handle menu events.
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main, menu);
+    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,6 +83,27 @@ public class MainActivityFragment extends Fragment {
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == R.id.action_refresh) {
+            FetchWeatherTask weatherTask = new FetchWeatherTask();
+            weatherTask.execute();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
     public class FetchWeatherTask extends AsyncTask<Void, Void, Void> {
 
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
@@ -86,7 +124,9 @@ public class MainActivityFragment extends Fragment {
                 // Possible parameters are available at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
                 //URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7");
-                URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?id=524901&units=metric&lang=ru&cnt=7");
+                String baseUrl = "http://api.openweathermap.org/data/2.5/forecast/daily?id=524901&units=metric&lang=ru&cnt=7";
+                String apiKey = "&APPID=" + BuildConfig.OPEN_WEATHER_MAP_API_KEY;
+                URL url = new URL(baseUrl.concat(apiKey));
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -108,6 +148,7 @@ public class MainActivityFragment extends Fragment {
                     // But it does make debugging a *lot* easier if you print out the completed
                     // buffer for debugging.
                     buffer.append(line + "\n");
+                    System.out.println(line);
                 }
 
                 if (buffer.length() == 0) {
