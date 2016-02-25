@@ -2,5 +2,6 @@
     <string name="app_name">Саньшайн</string>
     <string name="action_settings">Настройки</string>
     <string name="action_refresh">Обновить</string>
-    <string name="title_activity_detail">DetailActivity</string>
+    <string name="hello_world">Хелловорлд!\n111\n222\n33\n4</string>
+    <string name="title_activity_detail">Детальки</string>
 </resources>
