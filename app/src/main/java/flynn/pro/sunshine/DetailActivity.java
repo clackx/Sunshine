@@ -1,5 +1,6 @@
 package flynn.pro.sunshine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -36,6 +38,14 @@ public class DetailActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        //Intent intent = getIntent();
+        //String message = intent.getStringExtra(MainActivityFragment.EXTRA_MESSAGE);
+        //LayoutInflater inflater = this.getLayoutInflater();
+        //View dialogView = inflater.inflate(R.layout.fragment_detail, null);
+        //TextView edittext = (TextView) dialogView.findViewById(R.id.detailedtext);
+        //if (edittext != null)  edittext.setText(message);
+
     }
 
     @Override
@@ -73,6 +83,14 @@ public class DetailActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
 
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+
+            Intent intent = getActivity().getIntent();
+            if (intent != null && intent.hasExtra(MainActivityFragment.EXTRA_MESSAGE)) {
+                String forecastStr = intent.getStringExtra(MainActivityFragment.EXTRA_MESSAGE);
+                ((TextView) rootView.findViewById(R.id.detailedtext))
+                    .setText(forecastStr);
+            }
+
             return rootView;
         }
     }

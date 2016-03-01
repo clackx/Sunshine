@@ -32,10 +32,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
+
+
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment {
+
+    public final static String EXTRA_MESSAGE="com.example.menuexample.MESSAGE";
 
     public MainActivityFragment() {
     }
@@ -91,7 +96,8 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(getActivity(), mForecastAdapter.getItem(position).substring(11), Toast.LENGTH_SHORT).show();
-                Intent DetailsShow = new Intent (getActivity(), DetailActivity.class);
+                Intent DetailsShow = new Intent(getActivity(), DetailActivity.class);
+                DetailsShow.putExtra(EXTRA_MESSAGE, mForecastAdapter.getItem(position).substring(11));
                 startActivity (DetailsShow);
             }
         });
